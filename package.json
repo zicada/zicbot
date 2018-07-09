@@ -1,0 +1,24 @@
+{
+  "name": "zicbot",
+  "version": "1.0.0",
+  "description": "ircbot for planet.e",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zicada/zicbot.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zicada/zicbot/issues"
+  },
+  "homepage": "https://github.com/zicada/zicbot#readme",
+  "dependencies": {
+    "coffea": "^0.4.29",
+    "google": "^2.1.0",
+    "googleapis": "^32.0.0"
+  }
+}
