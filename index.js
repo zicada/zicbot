@@ -4,7 +4,7 @@ var client = require('coffea')({
     ssl: false, // set to true if you want to use ssl
     ssl_allow_invalid: false, // set to true if the server has a custom ssl certificate
     prefix: '!', // used to parse commands and emit on('command') events, default: !
-    channels: ['#zictest'], // autojoin channels, default: []
+    channels: ['#planet.e'], // autojoin channels, default: []
     nick: 'zicbot', // default value: 'coffea' with random number
     username: 'zicbot', // default value: username = nick
     realname: 'zicbot', // default value: realname = nick
@@ -33,7 +33,6 @@ client.on('command', function (event) {
                         continue;
                     }
                 }
-
             })
             break;
         case 'ping':
@@ -43,3 +42,15 @@ client.on('command', function (event) {
     console.log(event.channel.name, event.user.nick, event.message);
 });
 
+
+
+client.on('message', function (event) {
+    if (event.message.includes("zicbot:")) {
+        var m = require('mitsuku-api')();
+        m.send(event.message.replace('zicbot:', ''))
+            .then(function (response) {
+                event.reply(response.split('uku:').pop())
+            });
+    }
+    console.log(event.channel.name, event.user.nick, event.message);
+});
