@@ -4,7 +4,7 @@ var client = require('coffea')({
     ssl: false, // set to true if you want to use ssl
     ssl_allow_invalid: false, // set to true if the server has a custom ssl certificate
     prefix: '!', // used to parse commands and emit on('command') events, default: !
-    channels: ['#planet.e'], // autojoin channels, default: []
+    channels: ['#zictest'], // autojoin channels, default: []
     nick: 'zicbot', // default value: 'coffea' with random number
     username: 'zicbot', // default value: username = nick
     realname: 'zicbot', // default value: realname = nick
@@ -22,7 +22,7 @@ google.resultsPerPage = 10
 client.on('command', function (event) {
     switch (event.cmd) {
         case 'google':
-            google(event.args[0], function (err, res) {
+            google(event.args, function (err, res) {
                 if (err) console.error(err)
                 for (var i = 0; i < res.links.length; ++i) {
                     var link = res.links[i];
