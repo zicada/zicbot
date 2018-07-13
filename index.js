@@ -1,3 +1,4 @@
+var google = require('google')
 var client = require('coffea')({
     host: 'irc.freenode.net',
     port: 6667, // default value: 6667
@@ -16,7 +17,6 @@ var client = require('coffea')({
     throttling: 250 // default value: 250ms, 1 message every 250ms, disable by setting to false
 });
 
-var google = require('google')
 google.resultsPerPage = 10
 
 client.on('command', function (event) {
@@ -29,8 +29,6 @@ client.on('command', function (event) {
                     if (link.href) {
                         event.reply(link.href);
                         break;
-                    } else {
-                        continue;
                     }
                 }
             })
