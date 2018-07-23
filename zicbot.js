@@ -24,11 +24,12 @@ client.on('message', function (event) {
     if (event.message.includes(config.IRC_OPTIONS.nick + ":")) {
         postMitsuku(event)
     }
-    if (thr === config.LINE_THRESHOLD) {
+    if (thr > config.LINE_THRESHOLD) {
         postHsData(event)
         thr = 0;
     }
     console.log(event.channel.name, event.user.nick, event.message)
+    console.log(thr)
     thr++
 });
 
@@ -63,11 +64,11 @@ function postHsData(event) {
         if (error) {
             event.reply(config.ERROR_MSG + " " + error)
         }
-        str = ("Current rank: "
+        str = ("<< Wirum HS standings! (again) >> \nCurrent rank: "
             + getRank(JSON.parse(body))
-            + "\n Current win percentage: "
+            + ", Current win percentage: "
             + getWinRatio(JSON.parse(body), total)
-            + "%\n Games played: "
+            + "%, Games played: "
             + total)
         event.reply(str)
     });
