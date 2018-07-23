@@ -3,13 +3,11 @@ let env = process.env.NODE_ENV || 'production'
 
 let config = require('./config')[env];
 let client = require('coffea')(config.IRC_OPTIONS)
-let google = require('google')
-google.resultsPerPage = config.GOOGLE_OPTIONS.resultsPerPage
 
 client.on('command', function (event) {
     switch (event.cmd) {
         case 'google':
-            postGoogleLink(event)
+            postGoogleLink(event, config.GOOGLE_OPTIONS.wild)
             break;
         case 'ping':
             event.reply('pong')
@@ -29,7 +27,7 @@ client.on('message', function (event) {
 });
 
 function postMitsuku(event) {
-    let m = require('mitsuku-api')();
+    let m = require('mitsuku-api')
     m.send(event.message.replace(config.IRC_OPTIONS.nick, ''))
         .then(function (response) {
             event.reply(response.split('uku:').pop())
@@ -38,11 +36,13 @@ function postMitsuku(event) {
         })
 }
 
-function postGoogleLink(event) {
+function postGoogleLink(event, wild = 2) {
+    let google = require('google')
+    google.resultsPerPage = config.GOOGLE_OPTIONS.resultsPerPage
     google(event.args, function (error, res) {
         if (error) event.reply(config.ERROR_MSG + " " + error)
-        for (let i = 0; i < res.links.length; ++i) {
-            let link = res.links[i];
+        for (let i = 0; i < wild; ++i) {
+            let link = res.links[getRandomInt(wild)];
             if (link.href) {
                 event.reply(link.href);
                 break;
@@ -52,7 +52,7 @@ function postGoogleLink(event) {
 }
 
 function postHsData(event) {
-    let Request = require("request");
+    let Request = require("request")
     Request.get(config.URL + config.USERNAME + config.TOKEN, (error, response, body) => {
         let total = JSON.parse(body).history.length
         if (error) {
@@ -86,3 +86,7 @@ function getRank(data) {
         return result['rank']
     }
 }
+
+function getRandomInt(max) {
+    return Math.floor(Math.random() * Math.floor(max));
+  }
