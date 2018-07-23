@@ -21,17 +21,15 @@ client.on('command', function (event) {
 });
 
 client.on('message', function (event) {
-    
     if (event.message.includes(config.IRC_OPTIONS.nick + ":")) {
         postMitsuku(event)
     }
-    if (thr === true) {
+    console.log(Math.random() < config.LUCK_FACTOR, Math.random())
+    if (Math.random() < config.LUCK_FACTOR) {
         postHsData(event)
         thr = false;
     }
     console.log(event.channel.name, event.user.nick, event.message)
-
-    getRandomInt(2) < config.LUCK_FACTOR ? thr = true : thr = false
 });
 
 function postMitsuku(event) {
