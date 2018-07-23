@@ -3,7 +3,6 @@ let env = process.env.NODE_ENV || 'production'
 
 let config = require('./config')[env];
 let client = require('coffea')(config.IRC_OPTIONS)
-let thr = false;
 
 client.on('command', function (event) {
     switch (event.cmd) {
@@ -26,7 +25,6 @@ client.on('message', function (event) {
     }
     if (Math.random() < config.LUCK_FACTOR) {
         postHsData(event)
-        thr = false;
     }
     console.log(event.channel.name, event.user.nick, event.message)
 });
