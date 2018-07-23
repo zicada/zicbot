@@ -1,4 +1,5 @@
-let env = process.env.NODE_ENV || 'development';
+/* let env = process.env.NODE_ENV || 'development';*/
+let env = process.env.NODE_ENV || 'production';
 
 let config = require('./config')[env];
 let client = require('coffea')(config.IRC_OPTIONS)
@@ -28,7 +29,6 @@ client.on('command', function (event) {
                 if (error) {
                     event.reply("zicada: I broke. This is the error: " + error)
                 }
-
                 event.reply("Current rank: " 
                 + getRank(JSON.parse(body)) 
                 + "\n Current win percentage: " 
@@ -36,7 +36,6 @@ client.on('command', function (event) {
                 + "%\n Games played: " 
                 + total)
             });
-
             break;
     }
     console.log(event.channel.name, event.user.nick, event.message);
