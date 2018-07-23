@@ -1,5 +1,5 @@
 /* let env = process.env.NODE_ENV || 'production';*/
-let env = process.env.NODE_ENV || 'production'
+let env = process.env.NODE_ENV || 'development'
 
 let config = require('./config')[env];
 let client = require('coffea')(config.IRC_OPTIONS)
@@ -84,10 +84,14 @@ function getWinRatio(data, total) {
 }
 
 function getRank(data) {
-    // TODO: make sure we're sorted and that the last object in the array is the latest and thus has the correct rank property.
     if (data) {
-        let result = data.history.pop()
-        return result['rank']
+        let min = config.MAX_RANK
+        for(d of data.history) {
+                if(d['rank'] != null && d['rank'] < min) {
+                    min = d['rank']
+                }
+        }
+        return min
     }
 }
 
