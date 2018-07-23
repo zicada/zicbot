@@ -3,7 +3,7 @@ let env = process.env.NODE_ENV || 'production'
 
 let config = require('./config')[env];
 let client = require('coffea')(config.IRC_OPTIONS)
-let thr = 0;
+let thr = false;
 
 client.on('command', function (event) {
     switch (event.cmd) {
@@ -21,25 +21,25 @@ client.on('command', function (event) {
 });
 
 client.on('message', function (event) {
+    
     if (event.message.includes(config.IRC_OPTIONS.nick + ":")) {
         postMitsuku(event)
     }
-    if (thr > config.LINE_THRESHOLD) {
+    if (thr === true) {
         postHsData(event)
-        thr = 0;
+        thr = false;
     }
     console.log(event.channel.name, event.user.nick, event.message)
 
-    // TODO: Make this less retarded. We wanna randomize how often we're being annoying somehow
-    getRandomInt(2) >= 0.5 ? thr++ : thr
+    getRandomInt(2) < config.LUCK_FACTOR ? thr = true : thr = false
 });
 
 function postMitsuku(event) {
     let m = require('mitsuku-api')();
-            m.send(event.message.replace(config.IRC_OPTIONS.nick, ''))
-                .then(function (response) {
-                    response.length > 4 ? event.reply(response.split('uku:').pop()) : event.reply(config.DICK_REPLY)
-                });
+    m.send(event.message.replace(config.IRC_OPTIONS.nick, ''))
+        .then(function (response) {
+            response.length > 4 ? event.reply(response.split('uku:').pop()) : event.reply(config.DICK_REPLY)
+        });
 }
 
 function postGoogleLink(event, wild = 2) {
