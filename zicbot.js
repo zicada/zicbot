@@ -3,6 +3,7 @@ let env = process.env.NODE_ENV || 'production'
 
 let config = require('./config')[env];
 let client = require('coffea')(config.IRC_OPTIONS)
+let thr = 0;
 
 client.on('command', function (event) {
     switch (event.cmd) {
@@ -20,20 +21,25 @@ client.on('command', function (event) {
 });
 
 client.on('message', function (event) {
-    if (event.message.includes("zicbot:")) {
+    if (event.message.includes(config.IRC_OPTIONS.nick + ":")) {
         postMitsuku(event)
     }
+    if (thr === config.LINE_THRESHOLD) {
+        console.log("ding!")
+        postHsData(event)
+        thr = 0;
+    }
+    console.log("trigger")
     console.log(event.channel.name, event.user.nick, event.message)
+    thr++
 });
 
 function postMitsuku(event) {
-    let m = require('mitsuku-api')
-    m.send(event.message.replace(config.IRC_OPTIONS.nick, ''))
-        .then(function (response) {
-            event.reply(response.split('uku:').pop())
-        }, function (error) {
-            event.reply(config.ERROR_MSG + " " + error)
-        })
+    let m = require('mitsuku-api')();
+            m.send(event.message.replace(config.IRC_OPTIONS.nick, ''))
+                .then(function (response) {
+                    event.reply(response.split('uku:').pop())
+                });
 }
 
 function postGoogleLink(event, wild = 2) {
@@ -52,19 +58,24 @@ function postGoogleLink(event, wild = 2) {
 }
 
 function postHsData(event) {
+    let str = ""
     let Request = require("request")
     Request.get(config.URL + config.USERNAME + config.TOKEN, (error, response, body) => {
         let total = JSON.parse(body).history.length
         if (error) {
             event.reply(config.ERROR_MSG + " " + error)
         }
-        event.reply("Current rank: "
+        str = ("Current rank: "
             + getRank(JSON.parse(body))
             + "\n Current win percentage: "
             + getWinRatio(JSON.parse(body), total)
             + "%\n Games played: "
             + total)
+        event.reply(str)
     });
+    return function(event) {
+        return str
+    }
 }
 
 function getWinRatio(data, total) {
@@ -89,4 +100,4 @@ function getRank(data) {
 
 function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
-  }
+}
