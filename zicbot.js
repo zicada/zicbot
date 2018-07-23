@@ -1,5 +1,5 @@
 /* let env = process.env.NODE_ENV || 'production';*/
-let env = process.env.NODE_ENV || 'development'
+let env = process.env.NODE_ENV || 'production'
 
 let config = require('./config')[env];
 let client = require('coffea')(config.IRC_OPTIONS)
