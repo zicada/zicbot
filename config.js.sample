@@ -1,0 +1,37 @@
+var config = {
+    development: {
+        URL: 'https://trackobot.com/profile/history.json?username=cool-void-terror-8832&token=',
+        TOKEN: '4Aw_P9-xAvsx7XhPNdQd',
+        IRC_OPTIONS: {
+            host: 'irc.freenode.net',
+            port: 6667, // default value: 6667
+            ssl: false, // set to true if you want to use ssl
+            ssl_allow_invalid: false, // set to true if the server has a custom ssl certificate
+            prefix: '!', // used to parse commands and emit on('command') events, default: !
+            channels: ['#zictest'], // autojoin channels, default: []
+            nick: 'zicbot', // default value: 'coffea' with random number
+            throttling: 250 // default value: 250ms, 1 message every 250ms, disable by setting to false
+        },
+        GOOGLE_OPTIONS: {
+            resultsPerPage: 10
+        }
+    },
+    production: {
+        URL: 'https://trackobot.com/profile/history.json?username=cool-void-terror-8832&token=',
+        TOKEN: '4Aw_P9-xAvsx7XhPNdQd',
+        IRC_OPTIONS: {
+            host: 'irc.freenode.net',
+            port: 6667, // default value: 6667
+            ssl: false, // set to true if you want to use ssl
+            ssl_allow_invalid: false, // set to true if the server has a custom ssl certificate
+            prefix: '!', // used to parse commands and emit on('command') events, default: !
+            channels: ['#zictest'], // autojoin channels, default: []
+            nick: 'zicbot', // default value: 'coffea' with random number
+            throttling: 250 // default value: 250ms, 1 message every 250ms, disable by setting to false
+        },
+        GOOGLE_OPTIONS: {
+            resultsPerPage: 10
+        }
+    }
+};
+module.exports = config;

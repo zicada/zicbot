@@ -1,19 +1,8 @@
-let token = '4Aw_P9-xAvsx7XhPNdQd'
-let trackOBotUrl = 'https://trackobot.com/profile/history.json?username=cool-void-terror-8832&token=' + token
+let env = process.env.NODE_ENV || 'development';
 
-let google = require('google')
-let client = require('coffea')({
-    host: 'irc.freenode.net',
-    port: 6667, // default value: 6667
-    ssl: false, // set to true if you want to use ssl
-    ssl_allow_invalid: false, // set to true if the server has a custom ssl certificate
-    prefix: '!', // used to parse commands and emit on('command') events, default: !
-    channels: ['#planet.e'], // autojoin channels, default: []
-    nick: 'zicbot', // default value: 'coffea' with random number
-    throttling: 250 // default value: 250ms, 1 message every 250ms, disable by setting to false
-});
-google.resultsPerPage = 10
-
+let config = require('./config')[env];
+let client = require('coffea')(config.IRC_OPTIONS)
+let google = require('google').resultsPerPage = config.GOOGLE_OPTIONS.resultsPerPage
 
 client.on('command', function (event) {
     switch (event.cmd) {
@@ -34,34 +23,18 @@ client.on('command', function (event) {
             break;
         case 'hs':
             let Request = require("request");
-            Request.get(trackOBotUrl, (error, response, body) => {
+            Request.get(config.URL + config.TOKEN, (error, response, body) => {
+                let total = JSON.parse(body).history.length
                 if (error) {
-                    return console.dir(error)
+                    event.reply("zicada: I broke. This is the error: " + error)
                 }
-                function getWinRatio(data) {
-                    if (data) {
-                        let wins = 0
-                        let losses = 0
-                        let total = data.history.length
-                        for (d of data.history) {
-                            d['result'] === 'win' ? wins++ : losses++
-                        }
-                        return ((wins / total) * 100).toFixed(2)
-                    }
-                }
-                function getRank(data) {
-                    if (data) {
-                        let total = data.history.length
-                        let result = data.history.pop()
-                        return result['rank']
-                    }
-                }
+
                 event.reply("Current rank: " 
                 + getRank(JSON.parse(body)) 
                 + "\n Current win percentage: " 
-                + getWinRatio(JSON.parse(body))
+                + getWinRatio(JSON.parse(body), total)
                 + "%\n Games played: " 
-                + JSON.parse(body).history.length);
+                + total)
             });
 
             break;
@@ -72,11 +45,29 @@ client.on('command', function (event) {
 client.on('message', function (event) {
     if (event.message.includes("zicbot:")) {
         let m = require('mitsuku-api')();
-        m.send(event.message.replace('zicbot:', ''))
+        m.send(event.message.replace(config.IRC_OPTIONS.nick, ''))
             .then(function (response) {
                 event.reply(response.split('uku:').pop())
             });
     }
     console.log(event.channel.name, event.user.nick, event.message);
-
 });
+
+function getWinRatio(data, total) {
+    let wins = 0
+    if (data) {
+        for (d of data.history) {
+            if(d['result'] === 'win') 
+                wins++
+        }
+        return ((wins / total) * 100).toFixed(2)
+    }
+    return 0;
+}
+
+function getRank(data) {
+    if (data) {
+        let result = data.history.pop()
+        return result['rank']
+    }
+}
