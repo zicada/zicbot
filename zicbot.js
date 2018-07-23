@@ -1,5 +1,5 @@
 /* let env = process.env.NODE_ENV || 'production';*/
-let env = process.env.NODE_ENV || 'production'
+let env = process.env.NODE_ENV || 'development'
 
 let config = require('./config')[env];
 let client = require('coffea')(config.IRC_OPTIONS)
@@ -29,8 +29,9 @@ client.on('message', function (event) {
         thr = 0;
     }
     console.log(event.channel.name, event.user.nick, event.message)
-    console.log(thr)
-    thr++
+    
+    // TODO: Make this less retarded. We wanna randomize how often we're being annoying somehow
+    getRandomInt(2) >= 0.5 ? thr++ : thr
 });
 
 function postMitsuku(event) {
