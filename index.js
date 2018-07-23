@@ -39,7 +39,6 @@ client.on('command', function (event) {
                     return console.dir(error)
                 }
                 function getWinRatio(data) {
-                    let winRatio
                     if (data) {
                         let wins = 0
                         let losses = 0
@@ -47,7 +46,7 @@ client.on('command', function (event) {
                         for (d of data.history) {
                             d['result'] === 'win' ? wins++ : losses++
                         }
-                        return winRatio = (wins / total) * 100
+                        return ((wins / total) * 100).toFixed(2)
                     }
                 }
                 function getRank(data) {
@@ -57,7 +56,12 @@ client.on('command', function (event) {
                         return result['rank']
                     }
                 }
-                event.reply("Current rank: " + getRank(JSON.parse(body)) + ". Current win percentage: " + getWinRatio(JSON.parse(body)).toPrecision(2) + "%");
+                event.reply("Current rank: " 
+                + getRank(JSON.parse(body)) 
+                + "\n Current win percentage: " 
+                + getWinRatio(JSON.parse(body))
+                + "%\n Games played: " 
+                + JSON.parse(body).history.length);
             });
 
             break;
