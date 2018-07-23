@@ -25,11 +25,9 @@ client.on('message', function (event) {
         postMitsuku(event)
     }
     if (thr === config.LINE_THRESHOLD) {
-        console.log("ding!")
         postHsData(event)
         thr = 0;
     }
-    console.log("trigger")
     console.log(event.channel.name, event.user.nick, event.message)
     thr++
 });
