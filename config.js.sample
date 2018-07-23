@@ -1,8 +1,8 @@
 var config = {
     development: {
-        USERNAME: 'cool-void-terror-8832',
+        USERNAME: '',
         URL: 'https://trackobot.com/profile/history.json?username='+USERNAME+'&token=',
-        TOKEN: '4Aw_P9-xAvsx7XhPNdQd',
+        TOKEN: '',
         IRC_OPTIONS: {
             host: 'irc.freenode.net',
             port: 6667, // default value: 6667
@@ -18,9 +18,9 @@ var config = {
         }
     },
     production: {
-        USERNAME: 'cool-void-terror-8832',
+        USERNAME: '',
         URL: 'https://trackobot.com/profile/history.json?username='+USERNAME+'&token=',
-        TOKEN: '4Aw_P9-xAvsx7XhPNdQd',
+        TOKEN: '',
         IRC_OPTIONS: {
             host: 'irc.freenode.net',
             port: 6667, // default value: 6667
