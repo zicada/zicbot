@@ -19,7 +19,6 @@
   "dependencies": {
     "coffea": "^0.4.29",
     "google": "^2.1.0",
-    "googleapis": "^32.0.0",
     "mitsuku-api": "^0.2.1"
   }
 }
