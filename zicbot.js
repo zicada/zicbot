@@ -23,7 +23,7 @@ client.on('command', function (event) {
             break;
         case 'hs':
             let Request = require("request");
-            Request.get(config.URL + config.TOKEN, (error, response, body) => {
+            Request.get(config.URL + config.USERNAME + config.TOKEN, (error, response, body) => {
                 let total = JSON.parse(body).history.length
                 if (error) {
                     event.reply("zicada: I broke. This is the error: " + error)
