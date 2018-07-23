@@ -24,7 +24,6 @@ client.on('message', function (event) {
     if (event.message.includes(config.IRC_OPTIONS.nick + ":")) {
         postMitsuku(event)
     }
-    console.log(Math.random() < config.LUCK_FACTOR, Math.random())
     if (Math.random() < config.LUCK_FACTOR) {
         postHsData(event)
         thr = false;
