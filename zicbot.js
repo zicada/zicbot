@@ -55,6 +55,7 @@ function postGoogleLink(event, wild = 2) {
     })
 }
 
+// TODO: This doesn't work properly yet. We need to read the rank property of the newest game round. Maybe there's a date field we can sort by
 function postHsData(event) {
     let Request = require("request")
     Request.get(config.URL + config.USERNAME + config.TOKEN, (error, response, body) => {
