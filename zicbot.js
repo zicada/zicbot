@@ -86,8 +86,8 @@ function getWinRatio(data, total) {
 function getRank(data) {
     if (data.history) {
         let min = config.MAX_RANK
-        for(d of data.history) {
-            if(d['rank'] && d['rank'] < min) {
+        for (d of data.history) {
+            if (d['rank'] && d['rank'] < min) {
                 min = d['rank']
             }
         }
