@@ -19,7 +19,8 @@ var config = {
         },
         ERROR_MSG: "zicada: I broke. This is the error: ",
         LUCK_FACTOR: 0.05,
-        DICK_REPLY: "Please stop being a cunt m8"
+        DICK_REPLY: "Please stop being a cunt m8",
+        MAX_RANK: 25
     },
     production: {
         USERNAME: '',
@@ -31,7 +32,7 @@ var config = {
             ssl: false, // set to true if you want to use ssl
             ssl_allow_invalid: false, // set to true if the server has a custom ssl certificate
             prefix: '!', // used to parse commands and emit on('command') events, default: !
-            channels: ['#planet.e'], // autojoin channels, default: []
+            channels: ['#zictest'], // autojoin channels, default: []
             nick: 'zicbot', // default value: 'coffea' with random number
             throttling: 250 // default value: 250ms, 1 message every 250ms, disable by setting to false
         },
@@ -40,8 +41,9 @@ var config = {
             resultsPerPage: 10
         },
         ERROR_MSG: "zicada: I broke. This is the error: ",
-        LUCK_FACTOR: 0.02,
-        DICK_REPLY: "Please stop being a cunt m8"
+        LUCK_FACTOR: 0.05,
+        DICK_REPLY: "Please stop being a cunt m8",
+        MAX_RANK: 25
     }
 };
 module.exports = config;

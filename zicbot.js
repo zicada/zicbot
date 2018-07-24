@@ -75,7 +75,7 @@ function getWinRatio(data, total) {
     let wins = 0
     if (data) {
         for (d of data.history) {
-            if (d['result'] === 'win')
+            if (d['result'] && d['result'] === 'win')
                 wins++
         }
         return ((wins / total) * 100).toFixed(2)
@@ -84,12 +84,12 @@ function getWinRatio(data, total) {
 }
 
 function getRank(data) {
-    if (data) {
+    if (data.history) {
         let min = config.MAX_RANK
         for(d of data.history) {
-                if(d['rank'] != null && d['rank'] < min) {
-                    min = d['rank']
-                }
+            if(d['rank'] && d['rank'] < min) {
+                min = d['rank']
+            }
         }
         return min
     }
