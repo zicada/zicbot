@@ -17,8 +17,7 @@
   },
   "homepage": "https://github.com/zicada/zicbot#readme",
   "dependencies": {
-    "coffea": "^0.4.29",
-    "google": "^2.1.0",
-    "mitsuku-api": "^0.2.1"
+    "coffea": "*",
+    "google": "*"
   }
 }

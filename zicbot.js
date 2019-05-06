@@ -16,7 +16,7 @@ client.on('command', function (event) {
             postHsData(event)
             break;
     }
-    console.log(event.channel.name, event.user.nick, event.message)
+    console.log(event.user.nick, event.message)
 });
 
 client.on('message', function (event) {
@@ -26,13 +26,14 @@ client.on('message', function (event) {
     if (Math.random() < config.LUCK_FACTOR) {
         postHsData(event)
     }
-    console.log(event.channel.name, event.user.nick, event.message)
+    console.log(event.user.nick, event.message)
 });
 
 function postMitsuku(event) {
     let m = require('mitsuku-api')();
     m.send(event.message.replace(config.IRC_OPTIONS.nick, ''))
         .then(function (response) {
+            console.log(response)
             response.length > 4 ? event.reply(response.split('uku:').pop()) : event.reply(config.DICK_REPLY)
         });
 }
